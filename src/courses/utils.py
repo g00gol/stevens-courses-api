@@ -9,13 +9,12 @@ def parse_course(page: ClassPage) -> Class:
 
     id = main.css("h1 span::text").get()
     # get the text right next to the span tag
-    name = "".join([t.strip() for t in main.css(
-        "h1 span::text").css("*::text").getall()[1:]]).strip()
+    name = main.css("h1 *::text").getall()[-1]
 
-    description = " ".join(main.css(".desc::text").getall()).strip()
+    description = " ".join(main.css(".desc::text").getall())
     credits = main.css(".sc_credits .credits::text").get() or "0"
     prerequisites = " ".join(
-        main.css(".sc_prereqs::text").getall()).strip()
+        main.css(".sc_prereqs::text").getall())
     offered = main.css("#offered::text").getall()
     cross_listed = main.css(
         ".sc_credits + h3 + a.sc-courselink::text").getall()
