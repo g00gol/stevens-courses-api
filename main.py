@@ -24,11 +24,9 @@ app.include_router(courses_router)
 
 
 """
-CORS setup to allow requests from localhost:3000
+CORS setup to allow requests from everywhere
 """
-origins = [
-    "http://localhost:3000",
-]
+origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
