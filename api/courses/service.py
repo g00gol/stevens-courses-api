@@ -7,7 +7,7 @@ from courses.constants import CLASSES_PAGE
 from courses.utils import parse_course
 
 
-async def get_courses() -> list[Class]:
+async def get_courses(search="cs-computer-science") -> list[Class]:
     try:
         response = requests.get(CLASSES_PAGE)
         response.raise_for_status()
@@ -19,11 +19,11 @@ async def get_courses() -> list[Class]:
     class_nodes = classes_page.css("#main > ul:nth-child(3) > li")
     links = ["https://stevens.smartcatalogiq.com" +
              node.css("a::attr(href)").get().lower() for node in class_nodes]
+    links = [link for link in links if search.lower() in link.lower()]
 
     responses = []
-    for i in range(0, 5):
+    for link in links:
         try:
-            link = links[i]
             response = requests.get(link)
             response.raise_for_status()
             # Parse the course
